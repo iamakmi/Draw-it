@@ -486,12 +486,28 @@ body.ui-hidden .touchbar { opacity: 0; pointer-events: none; transform: translat
 body.ui-hidden .touch-show { display: none; }
 
 @media (max-width: 900px) {
-  .touchbar { left: 12px; bottom: 12px; padding: 4px; }
+  .touchbar { padding: 4px; }
   .tb { width: 40px; height: 40px; }
   .tb.fold { width: 28px; }
-  .touch-show { left: 12px; bottom: 12px; }
   .qr-room { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .touchbar, .touch-show { transition: none; }
 }
+
+/* 태블릿 폭에서는 터치 버튼을 좌측 상단으로 (하단 QR 과 겹치지 않게) */
+@media (max-width: 1200px) {
+  .touchbar {
+    left: 12px;
+    top: 12px;
+    bottom: auto;
+    opacity: .62;
+  }
+  .touchbar.folded { transform: translateY(-16px); }
+  .touch-show { left: 12px; top: 12px; bottom: auto; }
+  .hint { display: none; }
+}
+
+/* 스포트라이트 등장 중에는 캡션을 잠시 숨깁니다 (확대된 도안과 겹치지 않게) */
+.card.is-spotlight .caption { opacity: 0; }
+.card .caption { transition: opacity 400ms ease; }
