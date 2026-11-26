@@ -25,19 +25,19 @@ body.paper .orb { filter: blur(60px); }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 .d-logo {
-  height: 32px;
+  height: 22px;
   width: auto;
   display: block;
-  border-radius: 8px;
-  background: #fff;
-  padding: 3px 7px;
-  box-shadow: 0 4px 12px rgba(108, 76, 224, .14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .92);
+  padding: 2px 7px;
+  box-shadow: 0 3px 10px rgba(108, 76, 224, .12);
 }
 .d-brand {
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 900;
   letter-spacing: -.03em;
   background: linear-gradient(120deg, #6C4CE0, #FF7FB6);
@@ -364,65 +364,7 @@ body.paper .orb { filter: blur(60px); }
   .caption-inp { padding: 6px 10px; font-size: 13px; }
 }
 
-/* =====================================================================
- * 웹 버전 추가분 — 방 코드 표시 · 코드 입력
- * ===================================================================== */
-.d-room {
-  margin: 6px auto 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border: 1px solid rgba(255, 255, 255, .9);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .7);
-  box-shadow: 0 4px 12px rgba(96, 70, 150, .1);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: .02em;
-  color: rgba(58, 51, 80, .6);
-  cursor: pointer;
-}
-.d-room b { letter-spacing: .12em; color: #5B4B8A; font-weight: 900; }
-.d-room i {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: #43C08A;
-  box-shadow: 0 0 0 3px rgba(67, 192, 138, .16);
-}
-.d-room i.off { background: #E0576F; box-shadow: 0 0 0 3px rgba(224, 87, 111, .16); }
-
-.join-input {
-  width: 100%;
-  margin: 2px 0 14px;
-  padding: 13px 14px;
-  border: 1.5px solid rgba(108, 76, 224, .22);
-  border-radius: 14px;
-  background: #FBF8FF;
-  font-family: var(--font-ui);
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: .18em;
-  text-align: center;
-  color: #3A3350;
-  text-transform: uppercase;
-  outline: none;
-}
-.join-input:focus { border-color: rgba(108, 76, 224, .55); background: #fff; }
-.join-note {
-  margin: 10px 0 0 !important;
-  font-size: 11.5px !important;
-  line-height: 1.45 !important;
-  color: rgba(58, 51, 80, .5) !important;
-  min-height: 16px;
-}
-@media (max-height: 700px) {
-  .d-room { margin-top: 3px; padding: 4px 10px; font-size: 11px; }
-}
-
-/* ---------------------------------------------------------------- 가로 모드 */
+/* ---------------------------------------------------------------- 가로 모드 (태블릿·스마트폰 가로) */
 @media (orientation: landscape) and (max-height: 560px) {
   .d-head {
     display: flex;
@@ -434,7 +376,6 @@ body.paper .orb { filter: blur(60px); }
   .d-logo { height: 26px; padding: 2px 6px; }
   .d-brand { font-size: 20px; }
   .d-lead { display: none; }
-  .d-room { margin: 0; padding: 4px 10px; font-size: 10.5px; }
 
   .d-main {
     display: grid;

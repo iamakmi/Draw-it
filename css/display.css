@@ -9,34 +9,35 @@
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 6;
-  padding: 26px 32px 0;
+  padding: 18px 32px 0;
   text-align: center;
   pointer-events: none;
   transition: opacity 420ms ease, transform 420ms ease;
 }
 body.ui-hidden .topbar { opacity: 0; transform: translateY(-14px); }
 
-.brand-row {
+.brand-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(14px, 1.8vw, 28px);
-  flex-wrap: wrap;
+  margin-bottom: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .88);
+  border: 1px solid rgba(255, 255, 255, .95);
+  box-shadow: 0 6px 18px rgba(108, 76, 224, .12);
 }
 
 .brand-logo {
-  height: clamp(46px, 5.8vw, 94px);
+  height: clamp(22px, 2.5vw, 34px);
   width: auto;
   display: block;
-  border-radius: 14px;
-  background: #fff;
-  padding: 6px 12px;
-  box-shadow: 0 10px 24px rgba(108, 76, 224, .16);
+  border-radius: 6px;
 }
 
 .title {
   margin: 0;
-  font-size: clamp(42px, 5.8vw, 96px);
+  font-size: clamp(38px, 5.2vw, 84px);
   font-weight: 900;
   letter-spacing: -.035em;
   line-height: 1.02;
@@ -112,6 +113,22 @@ body.presenting .card {
   text-overflow: ellipsis;
   pointer-events: none;
   z-index: 2;
+}
+
+/* ---------------------------------------------- 동그란 '똑' 마스코트 버블 */
+.card.is-mascot {
+  pointer-events: none;
+}
+.card .mascot-art {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  width: 54%;
+  height: 54%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(60, 40, 100, .14));
 }
 
 /* 눈 */

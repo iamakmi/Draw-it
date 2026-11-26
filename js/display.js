@@ -24,6 +24,19 @@
   var CARD_MIN = 152;
   var CARD_MAX = 212;
 
+  /* 동그란 말풍선 모양의 '똑' 마스코트 3종 (미디어월에서 항상 함께 둥실둥실 떠다님) */
+  var MASCOTS = [
+    { id: 'mascot-ttok-1', template: 'bubble', bg: 'pink',  mascotImg: 'ttok1.png', isMascot: true, strokes: [] },
+    { id: 'mascot-ttok-2', template: 'bubble', bg: 'cream', mascotImg: 'ttok2.png', isMascot: true, strokes: [] },
+    { id: 'mascot-ttok-3', template: 'bubble', bg: 'sky',   mascotImg: 'ttok3.png', isMascot: true, strokes: [] }
+  ];
+
+  function ensureMascots() {
+    MASCOTS.forEach(function (m) {
+      if (!state.cards.has(m.id)) addCard(m, { instant: true });
+    });
+  }
+
   var el = {
     stage: qs('#stage'),
     title: qs('#title'),
@@ -79,7 +92,7 @@
       var list = [];
       state.order.forEach(function (id) {
         var c = state.cards.get(id);
-        if (c) list.push(c.data);
+        if (c && !c.data.isMascot) list.push(c.data);
       });
       writeJSON(roomKey('drawings'), list);
     }, 300);
@@ -259,6 +272,7 @@
     var changed = false;
     state.cards.forEach(function (c) {
       var t = targetSize(c.id);
+      if (c.data && c.data.isMascot) t = Math.round(t * 0.88);
       if (Math.abs(c.size - t) > 7) {
         c.size = t;
         c.el.style.width = t + 'px';
@@ -337,26 +351,34 @@
     opts = opts || {};
     if (!d || !d.id) return null;
     if (state.cards.has(d.id)) return state.cards.get(d.id);
-    if (state.cards.size >= MAX_CARDS) {
-      var oldestId = state.order.shift();
-      var oc = state.cards.get(oldestId);
-      if (oc) {
-        oc.el.classList.add('fade-out');
-        (function (node) { setTimeout(function () { if (node.parentNode) node.parentNode.removeChild(node); }, 700); })(oc.el);
-        state.cards.delete(oldestId);
+    if (!d.isMascot && state.cards.size >= MAX_CARDS) {
+      var oldestIdx = -1;
+      for (var k = 0; k < state.order.length; k++) {
+        var cand = state.cards.get(state.order[k]);
+        if (cand && !cand.data.isMascot) { oldestIdx = k; break; }
+      }
+      if (oldestIdx >= 0) {
+        var oldestId = state.order.splice(oldestIdx, 1)[0];
+        var oc = state.cards.get(oldestId);
+        if (oc) {
+          oc.el.classList.add('fade-out');
+          (function (node) { setTimeout(function () { if (node.parentNode) node.parentNode.removeChild(node); }, 700); })(oc.el);
+          state.cards.delete(oldestId);
+        }
       }
     }
 
     var shape = SH.byId(d.template);
     var bgi = SH.bgOf(d.bg);
     var size = opts.size || cardSize(d);
+    if (d.isMascot) size = Math.round(size * 0.88);
     if (opts.isNew) size = Math.max(size, 194);
     var multi = SH.isMultiPath(shape);
     var gid = 'g' + Math.random().toString(36).slice(2, 9);
     var cid = 'c' + Math.random().toString(36).slice(2, 9);
 
     var root = document.createElement('div');
-    root.className = 'card' + (opts.instant ? ' no-anim' : '');
+    root.className = 'card' + (opts.instant ? ' no-anim' : '') + (d.isMascot ? ' is-mascot' : '');
     root.dataset.id = d.id;
     root.style.width = size + 'px';
     root.style.height = size + 'px';
@@ -378,7 +400,7 @@
               : '<path d="' + shape.d + '" fill="none" stroke="rgba(255,255,255,.62)" stroke-width="7" transform="translate(100 100) scale(.955) translate(-100 -100)"/>') +
           '</g>' +
         '</svg>' +
-        '<canvas class="art" width="400" height="400"></canvas>' +
+        (d.mascotImg ? '<img class="mascot-art" src="' + esc(d.mascotImg) + '" alt="똑">' : '<canvas class="art" width="400" height="400"></canvas>') +
         '<div class="eyes">' + eyesHTML(shape) + '</div>' +
         '<div class="halo"></div>' +
         '<div class="sparkles"></div>' +
@@ -386,7 +408,7 @@
       (d.caption ? '<div class="caption">' + esc(d.caption) + '</div>' : '');
 
     var canvas = qs('canvas.art', root);
-    paintArt(canvas, d);
+    if (canvas) paintArt(canvas, d);
 
     var card = {
       id: d.id,
@@ -497,6 +519,7 @@
     state.cards.forEach(function (c) { if (c.el.parentNode) c.el.parentNode.removeChild(c.el); });
     state.cards.clear();
     state.order = [];
+    ensureMascots();
     updateCount();
     if (persist !== false) saveDrawings();
   }
@@ -511,7 +534,10 @@
   }
 
   function updateCount() {
-    if (el.countNum) el.countNum.textContent = state.cards.size;
+    if (!el.countNum) return;
+    var n = 0;
+    state.cards.forEach(function (c) { if (!c.data.isMascot) n++; });
+    el.countNum.textContent = n;
   }
 
   /* ------------------------------------------------------- 시선 애니메이션 */
@@ -738,8 +764,10 @@
   }
 
   function resetDrawings() {
-    if (!state.cards.size) return;
-    var ok = window.confirm('이 방의 방명록을 모두 비울까요?\n\n(' + state.cards.size + '개 그림이 지워집니다)');
+    var userCount = 0;
+    state.cards.forEach(function (c) { if (!c.data.isMascot) userCount++; });
+    if (!userCount) return;
+    var ok = window.confirm('이 방의 방명록을 모두 비울까요?\n\n(' + userCount + '개 그림이 지워집니다)');
     if (!ok) return;
     clearAll();
     if (RL) RL.publishEvent(RL.topicFor(state.room), 'x').catch(function () {});
@@ -806,6 +834,7 @@
     applySettings(state.settings);
 
     setDrawUrl(drawUrlFor(state.room));
+    ensureMascots();
     loadDrawings().forEach(function (d) { addCard(d, { instant: true }); });
     relayout();
     subscribe();
