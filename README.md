@@ -20,12 +20,12 @@
 
 | 화면 | 주소 |
 | --- | --- |
-| **미디어월(큰 화면)** | <https://iamakmi.github.io/draw-it/> |
-| 그리기(휴대폰) | `https://iamakmi.github.io/draw-it/draw.html?room=<방코드>` — 미디어월 QR 로 자동 열립니다 |
-| 관리자 | <https://iamakmi.github.io/draw-it/admin.html> |
+| **미디어월(큰 화면)** | <https://iamakmi.github.io/Draw-it/> |
+| 그리기(휴대폰) | `https://iamakmi.github.io/Draw-it/draw.html?room=<방코드>` — 미디어월 QR 로 자동 열립니다 |
+| 관리자 | <https://iamakmi.github.io/Draw-it/admin.html> |
 
 > 💡 미디어월은 태블릿/PC 브라우저에서 `F11`(전체화면)로 틀어 두면 가장 예쁩니다.
-> 주소 끝에 `?room=코드`를 붙이면 그 방으로 바로 열립니다. (예: `.../draw-it/?room=K7M2PQXH`)
+> 주소 끝에 `?room=코드`를 붙이면 그 방으로 바로 열립니다. (예: `.../Draw-it/?room=K7M2PQXH`)
 
 ---
 
