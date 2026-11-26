@@ -2,19 +2,29 @@
  * DRAW IT — 메인 미디어월
  * ===================================================================== */
 
-.stage { position: fixed; inset: 0; z-index: 2; }
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+}
 
 /* ---------------------------------------------------------------- 상단 */
 .topbar {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 6;
   padding: 18px 32px 0;
   text-align: center;
   pointer-events: none;
   transition: opacity 420ms ease, transform 420ms ease;
 }
-body.ui-hidden .topbar { opacity: 0; transform: translateY(-14px); }
+
+body.ui-hidden .topbar {
+  opacity: 0;
+  transform: translateY(-14px);
+}
 
 .brand-badge {
   display: inline-flex;
@@ -47,7 +57,10 @@ body.ui-hidden .topbar { opacity: 0; transform: translateY(-14px); }
   color: transparent;
   filter: drop-shadow(0 10px 22px rgba(108, 76, 224, .22));
 }
-.title-dot { margin-left: .06em; }
+
+.title-dot {
+  margin-left: .06em;
+}
 
 .subtitle {
   margin: 10px 0 0;
@@ -60,35 +73,54 @@ body.ui-hidden .topbar { opacity: 0; transform: translateY(-14px); }
 /* ---------------------------------------------------------------- 카드 */
 .card {
   position: absolute;
-  left: 0; top: 0;
-  width: 200px; height: 200px;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 200px;
   transition: left 1180ms cubic-bezier(.22, 1, .36, 1), top 1180ms cubic-bezier(.22, 1, .36, 1),
-              opacity 520ms ease, transform 520ms ease;
+    opacity 520ms ease, transform 520ms ease;
   will-change: left, top;
 }
-.card.no-anim { transition: none !important; }
-body.presenting .card:not(.is-spotlight) { opacity: .75; }
+
+.card.no-anim {
+  transition: none !important;
+}
+
+body.presenting .card:not(.is-spotlight) {
+  opacity: .75;
+}
+
 body.presenting .card {
   transition: left 1180ms cubic-bezier(.22, 1, .36, 1), top 1180ms cubic-bezier(.22, 1, .36, 1),
-              opacity 620ms ease, transform 520ms ease;
+    opacity 620ms ease, transform 520ms ease;
 }
-.card.fade-out { opacity: 0; transform: scale(.88); }
+
+.card.fade-out {
+  opacity: 0;
+  transform: scale(.88);
+}
+
 .card .inner {
   position: absolute;
-  left: 50%; top: 50%;
-  width: 200px; height: 200px;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 200px;
   margin: -100px 0 0 -100px;
   transform-origin: 50% 50%;
   will-change: transform;
 }
+
 .card svg.shape {
   position: absolute;
   inset: 0;
-  width: 200px; height: 200px;
+  width: 200px;
+  height: 200px;
   overflow: visible;
   filter: drop-shadow(0 16px 20px var(--card-shadow));
   pointer-events: none;
 }
+
 .card canvas.art {
   position: absolute;
   inset: 0;
@@ -96,6 +128,7 @@ body.presenting .card {
   height: 200px;
   pointer-events: none;
 }
+
 .card .caption {
   position: absolute;
   left: 50%;
@@ -113,12 +146,18 @@ body.presenting .card {
   text-overflow: ellipsis;
   pointer-events: none;
   z-index: 2;
+  transition: opacity 400ms ease;
+}
+
+.card.is-spotlight .caption {
+  opacity: 0;
 }
 
 /* ---------------------------------------------- 동그란 '똑' 마스코트 버블 */
 .card.is-mascot {
   pointer-events: none;
 }
+
 .card .mascot-art {
   position: absolute;
   left: 50%;
@@ -132,55 +171,97 @@ body.presenting .card {
 }
 
 /* 눈 */
-.card .eyes { position: absolute; inset: 0; pointer-events: none; }
-.eye { position: absolute; width: 0; height: 0; }
+.card .eyes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.eye {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
 .eye-white {
   position: absolute;
-  left: -10.5px; top: -11.5px;
-  width: 21px; height: 23px;
+  left: -10.5px;
+  top: -11.5px;
+  width: 21px;
+  height: 23px;
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 1px 2px rgba(60, 50, 90, .20), inset 0 0 0 1.5px rgba(60, 50, 90, .09);
   transform-origin: 50% 50%;
   animation: blink 7.2s infinite;
 }
+
 .pupil {
   position: absolute;
-  left: 0; top: 0;
-  width: 0; height: 0;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
   will-change: transform;
   animation: blinkPupil 7.2s infinite;
 }
+
 .pupil i {
   position: absolute;
-  left: -5px; top: -5px;
-  width: 10px; height: 10px;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #2B2A33;
 }
+
 .pupil i::after {
   content: "";
   position: absolute;
-  left: 1.6px; top: 1.4px;
-  width: 3.4px; height: 3.4px;
+  left: 1.6px;
+  top: 1.4px;
+  width: 3.4px;
+  height: 3.4px;
   border-radius: 50%;
   background: rgba(255, 255, 255, .92);
 }
 
 @keyframes blink {
-  0%, 90.5%, 100% { transform: scaleY(1); }
-  93.4% { transform: scaleY(.10); }
+
+  0%,
+  90.5%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  93.4% {
+    transform: scaleY(.10);
+  }
 }
+
 @keyframes blinkPupil {
-  0%, 91.6%, 100% { opacity: 1; }
-  93.4% { opacity: 0; }
+
+  0%,
+  91.6%,
+  100% {
+    opacity: 1;
+  }
+
+  93.4% {
+    opacity: 0;
+  }
 }
 
 /* 새 그림 스포트라이트 카드 */
-.card.is-spotlight { z-index: 40; }
+.card.is-spotlight {
+  z-index: 40;
+}
+
 .card.is-spotlight .inner {
   filter: drop-shadow(0 0 22px rgba(255, 255, 255, .95)) drop-shadow(0 24px 30px rgba(90, 60, 150, .28));
 }
+
 .card .halo {
   position: absolute;
   inset: -26px;
@@ -189,42 +270,76 @@ body.presenting .card {
   opacity: 0;
   pointer-events: none;
 }
+
 .card.is-spotlight .halo {
   animation: haloPulse 1.6s ease-out 2;
 }
+
 @keyframes haloPulse {
-  0% { opacity: .85; transform: scale(.72); }
-  70% { opacity: 0; transform: scale(1.22); }
-  100% { opacity: 0; transform: scale(1.24); }
+  0% {
+    opacity: .85;
+    transform: scale(.72);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.22);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.24);
+  }
 }
 
-.card .sparkles { position: absolute; inset: 0; pointer-events: none; }
+.card .sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .sparkle {
   position: absolute;
-  left: 50%; top: 50%;
-  width: 9px; height: 9px;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
   margin: -4.5px 0 0 -4.5px;
   border-radius: 50%;
   background: radial-gradient(circle, #FFF6C9 0%, #FFA9CE 52%, rgba(255, 255, 255, 0) 74%);
   animation: sparkleFly 1650ms cubic-bezier(.2, .7, .3, 1) forwards;
 }
+
 .sparkle.star {
   border-radius: 0;
   background: linear-gradient(140deg, #FFD86B, #FF8FC0);
   clip-path: polygon(50% 0%, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 39% 62%, 0% 50%, 39% 38%);
 }
+
 @keyframes sparkleFly {
-  0% { transform: translate(0, 0) scale(.35) rotate(0deg); opacity: 0; }
-  22% { opacity: 1; }
-  100% { transform: translate(var(--dx), var(--dy)) scale(1.05) rotate(140deg); opacity: 0; }
+  0% {
+    transform: translate(0, 0) scale(.35) rotate(0deg);
+    opacity: 0;
+  }
+
+  22% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(1.05) rotate(140deg);
+    opacity: 0;
+  }
 }
 
 /* ------------------------------------------------------------ 스포트라이트 */
 .spotlight {
   position: fixed;
   z-index: 1;
-  width: 760px; height: 760px;
-  margin-left: -380px; margin-top: -380px;
+  width: 760px;
+  height: 760px;
+  margin-left: -380px;
+  margin-top: -380px;
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
@@ -237,6 +352,7 @@ body.presenting .card {
   transition: opacity 900ms ease;
   animation: spotlightBreath 3.6s ease-in-out infinite;
 }
+
 [data-theme="night"] .spotlight {
   background: radial-gradient(circle,
       rgba(180, 150, 255, .40) 0%,
@@ -244,11 +360,21 @@ body.presenting .card {
       rgba(120, 90, 220, .08) 52%,
       rgba(255, 255, 255, 0) 72%);
 }
-.spotlight.on { opacity: 1; }
+
+.spotlight.on {
+  opacity: 1;
+}
 
 @keyframes spotlightBreath {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
 }
 
 /* ---------------------------------------------------------------- QR 패널 */
@@ -271,48 +397,86 @@ body.presenting .card {
   color: var(--panel-ink);
   transition: opacity 420ms ease, transform 420ms ease;
 }
+
 .qr-panel.corner {
   left: auto;
   right: 28px;
   bottom: 28px;
   transform: none;
 }
+
 body.ui-hidden .qr-panel,
 .qr-panel.hidden {
   opacity: 0;
   transform: translateX(-50%) translateY(26px);
   pointer-events: none;
 }
-.qr-panel.corner.hidden { transform: translateY(26px); }
+
+.qr-panel.corner.hidden {
+  transform: translateY(26px);
+}
 
 .qr-card {
   position: relative;
-  width: 158px; height: 158px;
+  width: 158px;
+  height: 158px;
   padding: 9px;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 10px 24px rgba(70, 50, 120, .16), inset 0 0 0 1px rgba(90, 70, 140, .07);
   overflow: hidden;
 }
-.qr-card canvas { display: block; width: 100%; height: 100%; }
+
+.qr-card canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .qr-glint {
   position: absolute;
   top: -40%;
   left: -60%;
-  width: 60%; height: 180%;
+  width: 60%;
+  height: 180%;
   background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .85) 50%, rgba(255, 255, 255, 0) 100%);
   transform: rotate(18deg);
   animation: glint 5.5s ease-in-out infinite;
   pointer-events: none;
 }
+
 @keyframes glint {
-  0%, 62% { left: -70%; }
-  88%, 100% { left: 130%; }
+
+  0%,
+  62% {
+    left: -70%;
+  }
+
+  88%,
+  100% {
+    left: 130%;
+  }
 }
 
-.qr-copy { display: flex; flex-direction: column; gap: 3px; min-width: 168px; }
-.qr-copy strong { font-size: 17px; font-weight: 800; letter-spacing: -.01em; }
-.qr-copy span { font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
+.qr-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 168px;
+}
+
+.qr-copy strong {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+
+.qr-copy span {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
 .qr-copy em {
   margin-top: 6px;
   font-style: normal;
@@ -327,7 +491,8 @@ body.ui-hidden .qr-panel,
 .badge {
   position: fixed;
   z-index: 8;
-  top: 24px; right: 26px;
+  top: 24px;
+  right: 26px;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -344,10 +509,15 @@ body.ui-hidden .qr-panel,
   color: var(--ink-soft);
   transition: opacity 420ms ease;
 }
-.badge #countNum { color: var(--ink); }
+
+.badge #countNum {
+  color: var(--ink);
+}
+
 .badge::before {
   content: "";
-  width: 8px; height: 8px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: linear-gradient(140deg, #8E6BFF, #FF8FC0);
   box-shadow: 0 0 0 4px rgba(142, 107, 255, .16);
@@ -356,12 +526,14 @@ body.ui-hidden .qr-panel,
 .hint {
   position: fixed;
   z-index: 8;
-  left: 26px; bottom: 22px;
+  left: 26px;
+  bottom: 22px;
   font-size: 12px;
   font-weight: 600;
   color: var(--ink-faint);
   transition: opacity 520ms ease;
 }
+
 .hint b {
   display: inline-block;
   min-width: 17px;
@@ -374,20 +546,34 @@ body.ui-hidden .qr-panel,
   text-align: center;
   font-size: 11px;
 }
-[data-theme="night"] .hint b { background: rgba(255, 255, 255, .10); border-color: rgba(255, 255, 255, .16); }
-body.ui-hidden .hint, body.ui-hidden .badge { opacity: 0; }
+
+[data-theme="night"] .hint b {
+  background: rgba(255, 255, 255, .10);
+  border-color: rgba(255, 255, 255, .16);
+}
+
+body.ui-hidden .hint,
+body.ui-hidden .badge {
+  opacity: 0;
+}
 
 .conn {
   position: fixed;
   z-index: 8;
-  right: 26px; bottom: 26px;
-  width: 9px; height: 9px;
+  right: 26px;
+  bottom: 26px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: #43C08A;
   box-shadow: 0 0 0 4px rgba(67, 192, 138, .16);
   transition: background 300ms ease, box-shadow 300ms ease;
 }
-.conn.off { background: #E0576F; box-shadow: 0 0 0 4px rgba(224, 87, 111, .16); }
+
+.conn.off {
+  background: #E0576F;
+  box-shadow: 0 0 0 4px rgba(224, 87, 111, .16);
+}
 
 /* ---------------------------------------------------------------- 토스트 */
 .toast {
@@ -408,42 +594,69 @@ body.ui-hidden .hint, body.ui-hidden .badge { opacity: 0; }
   transition: opacity 260ms ease, transform 320ms cubic-bezier(.22, 1, .36, 1);
   box-shadow: 0 18px 40px rgba(40, 26, 70, .28);
 }
-.toast.show { opacity: 1; transform: translateY(0); }
-body.ui-hidden .toast { opacity: 0; }
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body.ui-hidden .toast {
+  opacity: 0;
+}
 
 /* --------------------------------------------------------------- 반응형 */
 @media (max-width: 900px) {
-  .topbar { padding: 16px 18px 0; }
-  .qr-panel { gap: 14px; padding: 10px 18px 10px 12px; bottom: 16px; }
-  .qr-card { width: 118px; height: 118px; padding: 7px; border-radius: 16px; }
-  .qr-copy strong { font-size: 15px; }
-  .qr-copy em { display: none; }
-  .hint { display: none; }
-  .badge { top: 14px; right: 14px; font-size: 12px; padding: 7px 12px; }
+  .topbar {
+    padding: 16px 18px 0;
+  }
+
+  .qr-panel {
+    gap: 14px;
+    padding: 10px 18px 10px 12px;
+    bottom: 16px;
+  }
+
+  .qr-card {
+    width: 118px;
+    height: 118px;
+    padding: 7px;
+    border-radius: 16px;
+  }
+
+  .qr-copy strong {
+    font-size: 15px;
+  }
+
+  .qr-copy em {
+    display: none;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  .badge {
+    top: 14px;
+    right: 14px;
+    font-size: 12px;
+    padding: 7px 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orb, .qr-glint { animation: none; }
+
+  .orb,
+  .qr-glint {
+    animation: none;
+  }
 }
 
 /* =====================================================================
- * 웹 버전 추가분 — 방 코드 · 터치 버튼
+ * 태블릿 · 터치 버튼
  * ===================================================================== */
-.qr-room {
-  margin-top: 4px;
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  color: var(--ink-faint);
+.hint {
+  bottom: 84px;
 }
-.qr-room b {
-  font-weight: 900;
-  letter-spacing: .12em;
-  color: var(--ink-soft);
-}
-
-/* 좌측 하단: 단축키 안내 위에 터치 버튼 줄 */
-.hint { bottom: 84px; }
 
 .touchbar {
   position: fixed;
@@ -461,13 +674,24 @@ body.ui-hidden .toast { opacity: 0; }
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   backdrop-filter: blur(16px) saturate(140%);
   opacity: .72;
-  transition: opacity 320ms ease, transform 420ms cubic-bezier(.22,1,.36,1);
+  transition: opacity 320ms ease, transform 420ms cubic-bezier(.22, 1, .36, 1);
 }
-.touchbar:hover, .touchbar:focus-within, .touchbar:active { opacity: 1; }
-.touchbar.folded { opacity: 0; transform: translateY(16px); pointer-events: none; }
+
+.touchbar:hover,
+.touchbar:focus-within,
+.touchbar:active {
+  opacity: 1;
+}
+
+.touchbar.folded {
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+}
 
 .tb {
-  width: 44px; height: 44px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border: 0;
@@ -478,27 +702,52 @@ body.ui-hidden .toast { opacity: 0; }
   transition: background 160ms ease, color 160ms ease, transform 140ms ease;
   -webkit-tap-highlight-color: transparent;
 }
+
 .tb svg {
-  width: 21px; height: 21px;
+  width: 21px;
+  height: 21px;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.tb:active { transform: scale(.92); }
-.tb:hover { background: rgba(255, 255, 255, .6); color: var(--ink); }
-[data-theme="night"] .tb:hover { background: rgba(255, 255, 255, .10); }
-.tb.fold svg { width: 18px; height: 18px; }
-.tb.fold { width: 32px; }
 
-body.ui-hidden .touchbar { opacity: 0; pointer-events: none; transform: translateY(16px); }
+.tb:active {
+  transform: scale(.92);
+}
+
+.tb:hover {
+  background: rgba(255, 255, 255, .6);
+  color: var(--ink);
+}
+
+[data-theme="night"] .tb:hover {
+  background: rgba(255, 255, 255, .10);
+}
+
+.tb.fold svg {
+  width: 18px;
+  height: 18px;
+}
+
+.tb.fold {
+  width: 32px;
+}
+
+body.ui-hidden .touchbar {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+}
 
 .touch-show {
   position: fixed;
   z-index: 9;
-  left: 24px; bottom: 22px;
-  width: 40px; height: 40px;
+  left: 24px;
+  bottom: 22px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
   border: 1px solid var(--panel-line);
@@ -516,18 +765,194 @@ body.ui-hidden .touchbar { opacity: 0; pointer-events: none; transform: translat
   transition: opacity 280ms ease;
   cursor: pointer;
 }
-.touch-show.on { opacity: .5; visibility: visible; pointer-events: auto; }
-.touch-show.on:hover { opacity: 1; }
-body.ui-hidden .touch-show { display: none; }
+
+.touch-show.on {
+  opacity: .5;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.touch-show.on:hover {
+  opacity: 1;
+}
+
+body.ui-hidden .touch-show {
+  display: none;
+}
 
 @media (max-width: 900px) {
-  .touchbar { padding: 4px; }
-  .tb { width: 40px; height: 40px; }
-  .tb.fold { width: 28px; }
-  .qr-room { display: none; }
+  .touchbar {
+    padding: 4px;
+  }
+
+  .tb {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tb.fold {
+    width: 28px;
+  }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .touchbar, .touch-show { transition: none; }
+
+  .touchbar,
+  .touch-show {
+    transition: none;
+  }
+}
+
+/* =====================================================================
+ * 크리스마스 트리 테마 (트리 배경 · 눈송이 · 오너먼트 고리)
+ * ===================================================================== */
+.xmas-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 520ms ease, visibility 520ms ease;
+  z-index: 1;
+}
+
+[data-theme="christmas"] .xmas-scene {
+  opacity: 1;
+  visibility: visible;
+}
+
+.xmas-tree-wrap {
+  position: absolute;
+  left: 50%;
+  top: clamp(92px, 12.5vh, 155px);
+  bottom: clamp(16px, 3vh, 36px);
+  transform: translateX(-50%);
+  width: min(92vw, 900px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.xmas-tree-svg {
+  width: 100%;
+  height: 100%;
+  max-height: 85vh;
+  overflow: visible;
+  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, .55));
+}
+
+.tree-star {
+  transform-origin: 400px 86px;
+  animation: starTwinkle 2.8s ease-in-out infinite;
+}
+
+.star-halo {
+  transform-origin: 400px 86px;
+  animation: haloBreath 2.8s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.08) rotate(3deg); }
+}
+
+@keyframes haloBreath {
+  0%, 100% { opacity: .75; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+
+.xmas-lights .bulb {
+  animation: bulbBlink 2.2s ease-in-out infinite;
+}
+.xmas-lights .bulb.b1 { animation-delay: 0s; }
+.xmas-lights .bulb.b2 { animation-delay: -0.75s; }
+.xmas-lights .bulb.b3 { animation-delay: -1.5s; }
+
+@keyframes bulbBlink {
+  0%, 100% { opacity: 0.45; filter: drop-shadow(0 0 2px currentColor); }
+  50% { opacity: 1; filter: drop-shadow(0 0 10px #FFE066); }
+}
+
+/* 눈 내리는 효과 */
+.snow-layer,
+.snow-layer::before,
+.snow-layer::after {
+  position: absolute;
+  inset: -200px 0 0 0;
+  content: "";
+  pointer-events: none;
+  background-image:
+    radial-gradient(3.5px 3.5px at 40px 60px, rgba(255, 255, 255, .85) 50%, transparent),
+    radial-gradient(2.5px 2.5px at 160px 140px, rgba(255, 255, 255, .75) 50%, transparent),
+    radial-gradient(4px 4px at 280px 90px, rgba(255, 255, 255, .8) 50%, transparent),
+    radial-gradient(2.5px 2.5px at 390px 210px, rgba(255, 255, 255, .7) 50%, transparent),
+    radial-gradient(3px 3px at 510px 130px, rgba(255, 255, 255, .85) 50%, transparent),
+    radial-gradient(2px 2px at 85px 260px, rgba(255, 255, 255, .65) 50%, transparent);
+  background-size: 560px 320px;
+  animation: snowFall 14s linear infinite;
+}
+
+.snow-layer::before {
+  background-size: 420px 280px;
+  opacity: .65;
+  animation-duration: 19s;
+  animation-delay: -5s;
+}
+
+.snow-layer::after {
+  background-size: 680px 380px;
+  opacity: .5;
+  animation-duration: 24s;
+  animation-delay: -11s;
+}
+
+@keyframes snowFall {
+  0% { transform: translate3d(0, -160px, 0); }
+  100% { transform: translate3d(40px, 320px, 0); }
+}
+
+/* 크리스마스 테마일 때 각 버블 카드 위에 황금 오너먼트 고리 장식 표시 */
+[data-theme="christmas"] .card .inner::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 20px;
+  height: 15px;
+  transform: translateX(-50%);
+  border-radius: 5px 5px 2px 2px;
+  background: linear-gradient(90deg, #D99B26, #FFF3B0, #C7881A);
+  box-shadow: 0 -8px 0 -7px #FFE066, 0 2px 6px rgba(0, 0, 0, .45);
+  z-index: 6;
+  pointer-events: none;
+}
+
+[data-theme="christmas"] .card .inner::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -24px;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 2.5px solid #FFE066;
+  z-index: 5;
+  pointer-events: none;
+}
+
+[data-theme="christmas"] .card .caption {
+  color: #FFF9DB;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .75);
+  font-weight: 700;
+}
+
+[data-theme="christmas"] .spotlight {
+  background: radial-gradient(circle,
+      rgba(255, 232, 140, .45) 0%,
+      rgba(255, 140, 140, .24) 32%,
+      rgba(80, 200, 130, .10) 54%,
+      rgba(255, 255, 255, 0) 74%);
 }
 
 /* 태블릿 폭에서는 터치 버튼을 좌측 상단으로 (하단 QR 과 겹치지 않게) */
@@ -538,11 +963,18 @@ body.ui-hidden .touch-show { display: none; }
     bottom: auto;
     opacity: .62;
   }
-  .touchbar.folded { transform: translateY(-16px); }
-  .touch-show { left: 12px; top: 12px; bottom: auto; }
-  .hint { display: none; }
-}
 
-/* 스포트라이트 등장 중에는 캡션을 잠시 숨깁니다 (확대된 도안과 겹치지 않게) */
-.card.is-spotlight .caption { opacity: 0; }
-.card .caption { transition: opacity 400ms ease; }
+  .touchbar.folded {
+    transform: translateY(-16px);
+  }
+
+  .touch-show {
+    left: 12px;
+    top: 12px;
+    bottom: auto;
+  }
+
+  .hint {
+    display: none;
+  }
+}

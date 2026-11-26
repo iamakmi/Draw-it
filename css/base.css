@@ -76,6 +76,28 @@
   --orb-opacity: .55;
 }
 
+[data-theme="christmas"] {
+  --bg-a: #0A1D17;
+  --bg-b: #102B22;
+  --bg-c: #1B1220;
+  --ink: #FFFDF7;
+  --ink-soft: rgba(255, 248, 230, .78);
+  --ink-faint: rgba(255, 248, 230, .50);
+  --title-a: #FFE066;
+  --title-b: #FF6B7A;
+  --panel-bg: rgba(18, 42, 33, .82);
+  --panel-ink: #FFFDF7;
+  --panel-line: rgba(255, 224, 102, .28);
+  --panel-shadow: 0 26px 70px rgba(0, 0, 0, .62);
+  --badge-bg: rgba(24, 52, 40, .82);
+  --card-shadow: rgba(0, 0, 0, .52);
+  --orb-1: #7A1C2A;
+  --orb-2: #145A3A;
+  --orb-3: #7A5A18;
+  --orb-4: #24476B;
+  --orb-opacity: .45;
+}
+
 * { box-sizing: border-box; }
 
 html, body {
@@ -124,4 +146,5 @@ button { font-family: inherit; }
   background-size: 26px 26px;
   mix-blend-mode: multiply;
 }
-[data-theme="night"] .grain { mix-blend-mode: screen; opacity: .14; }
+[data-theme="night"] .grain,
+[data-theme="christmas"] .grain { mix-blend-mode: screen; opacity: .14; }

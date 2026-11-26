@@ -16,6 +16,98 @@
     <span class="orb orb-3"></span>
     <span class="orb orb-4"></span>
     <span class="grain"></span>
+    <div class="xmas-scene" id="xmasScene" aria-hidden="true">
+      <div class="snow-layer"></div>
+      <div class="xmas-tree-wrap">
+        <svg class="xmas-tree-svg" viewBox="0 0 800 920" preserveAspectRatio="xMidYMax meet">
+          <defs>
+            <radialGradient id="starHalo" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FFF7B2" stop-opacity="0.95"/>
+              <stop offset="45%" stop-color="#FFD43B" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#FFD43B" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="treeTier1" x1="0" y1="0" x2="0.2" y2="1">
+              <stop offset="0%" stop-color="#2B8A57"/>
+              <stop offset="100%" stop-color="#175636"/>
+            </linearGradient>
+            <linearGradient id="treeTier2" x1="0" y1="0" x2="0.2" y2="1">
+              <stop offset="0%" stop-color="#237A4B"/>
+              <stop offset="100%" stop-color="#12472C"/>
+            </linearGradient>
+            <linearGradient id="treeTier3" x1="0" y1="0" x2="0.2" y2="1">
+              <stop offset="0%" stop-color="#1D6A40"/>
+              <stop offset="100%" stop-color="#0E3822"/>
+            </linearGradient>
+            <linearGradient id="treeTier4" x1="0" y1="0" x2="0.2" y2="1">
+              <stop offset="0%" stop-color="#185B36"/>
+              <stop offset="100%" stop-color="#0A2B1A"/>
+            </linearGradient>
+            <linearGradient id="trunkGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#6B4226"/>
+              <stop offset="50%" stop-color="#855433"/>
+              <stop offset="100%" stop-color="#4E2E18"/>
+            </linearGradient>
+            <linearGradient id="goldStar" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FFF9C4"/>
+              <stop offset="45%" stop-color="#FFD43B"/>
+              <stop offset="100%" stop-color="#F59F00"/>
+            </linearGradient>
+          </defs>
+
+          <!-- 바닥 눈언덕 -->
+          <ellipse cx="400" cy="885" rx="340" ry="32" fill="rgba(255,255,255,0.16)"/>
+          <ellipse cx="400" cy="880" rx="240" ry="22" fill="rgba(255,255,255,0.22)"/>
+
+          <!-- 나무 기둥 및 받침 -->
+          <rect x="352" y="750" width="96" height="125" rx="18" fill="url(#trunkGrad)"/>
+          <path d="M324 855 H476 L462 895 H338 Z" fill="#A62639" opacity="0.9"/>
+          <rect x="318" y="846" width="164" height="16" rx="8" fill="#FFD43B"/>
+
+          <!-- 4단(맨 아래) 솔잎 -->
+          <path d="M400 450 L95 785 Q245 825 400 795 Q555 825 705 785 Z" fill="url(#treeTier4)"/>
+          <!-- 3단 솔잎 -->
+          <path d="M400 315 L145 630 Q272 668 400 640 Q528 668 655 630 Z" fill="url(#treeTier3)"/>
+          <!-- 2단 솔잎 -->
+          <path d="M400 200 L200 475 Q300 508 400 482 Q500 508 600 475 Z" fill="url(#treeTier2)"/>
+          <!-- 1단(맨 위) 솔잎 -->
+          <path d="M400 102 L255 330 Q328 356 400 335 Q472 356 545 330 Z" fill="url(#treeTier1)"/>
+
+          <!-- 눈 덮인 가지 하이라이트 -->
+          <path d="M262 328 Q330 350 400 332 Q470 350 538 328" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="7" stroke-linecap="round"/>
+          <path d="M208 472 Q304 500 400 478 Q496 500 592 472" fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="8" stroke-linecap="round"/>
+          <path d="M154 626 Q276 660 400 634 Q524 660 646 626" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="9" stroke-linecap="round"/>
+          <path d="M106 780 Q252 816 400 788 Q548 816 694 780" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="10" stroke-linecap="round"/>
+
+          <!-- 황금 가랜드 줄 -->
+          <path d="M295 270 Q400 335 515 285" fill="none" stroke="#FFD43B" stroke-width="3.5" stroke-dasharray="7 7" opacity="0.72"/>
+          <path d="M235 415 Q400 505 565 435" fill="none" stroke="#FFD43B" stroke-width="4" stroke-dasharray="8 8" opacity="0.72"/>
+          <path d="M180 565 Q400 675 625 585" fill="none" stroke="#FFD43B" stroke-width="4.5" stroke-dasharray="8 8" opacity="0.72"/>
+          <path d="M130 720 Q400 835 670 735" fill="none" stroke="#FFD43B" stroke-width="5" stroke-dasharray="9 9" opacity="0.72"/>
+
+          <!-- 반짝이는 꼬마전구 -->
+          <g class="xmas-lights">
+            <circle class="bulb b1" cx="350" cy="235" r="7" fill="#FFE066"/>
+            <circle class="bulb b2" cx="445" cy="255" r="7" fill="#FF6B6B"/>
+            <circle class="bulb b3" cx="310" cy="375" r="8" fill="#74C0FC"/>
+            <circle class="bulb b1" cx="415" cy="400" r="8" fill="#FFE066"/>
+            <circle class="bulb b2" cx="505" cy="385" r="8" fill="#FF8787"/>
+            <circle class="bulb b3" cx="250" cy="525" r="8.5" fill="#FFE066"/>
+            <circle class="bulb b1" cx="365" cy="555" r="8.5" fill="#63E6BE"/>
+            <circle class="bulb b2" cx="470" cy="540" r="8.5" fill="#FF6B6B"/>
+            <circle class="bulb b3" cx="565" cy="565" r="8.5" fill="#FFE066"/>
+            <circle class="bulb b1" cx="195" cy="695" r="9" fill="#FF8787"/>
+            <circle class="bulb b2" cx="315" cy="725" r="9" fill="#FFE066"/>
+            <circle class="bulb b3" cx="430" cy="710" r="9" fill="#74C0FC"/>
+            <circle class="bulb b1" cx="545" cy="735" r="9" fill="#63E6BE"/>
+            <circle class="bulb b2" cx="630" cy="705" r="9" fill="#FFE066"/>
+          </g>
+
+          <!-- 꼭대기 베들레헴 황금 별 -->
+          <circle cx="400" cy="86" r="74" fill="url(#starHalo)" class="star-halo"/>
+          <polygon class="tree-star" points="400,24 417,64 460,68 427,96 437,138 400,115 363,138 373,96 340,68 383,64" fill="url(#goldStar)" stroke="#FFF9DB" stroke-width="3" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
   </div>
 
   <header class="topbar" id="topbar">

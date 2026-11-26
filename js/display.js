@@ -197,9 +197,26 @@
     return Math.max(dx, dy);
   }
 
+  function isChristmas() {
+    return (state.settings && state.settings.theme === 'christmas') ||
+           document.documentElement.dataset.theme === 'christmas';
+  }
+
+  /* 크리스마스 트리 실루엣 안에 들어가도록 x 범위와 후보 좌표를 계산합니다 */
+  function treeBoundsAt(yNorm, f) {
+    var t = clamp((yNorm - 0.06) / 0.84, 0, 1);
+    var tierWave = 0.03 * Math.sin(t * Math.PI * 4);
+    var halfRatio = clamp(0.07 + t * 0.37 + tierWave, 0.07, 0.46);
+    var cx = f.x + f.w * 0.5;
+    var treeW = Math.min(f.w * 0.92, f.h * 0.96);
+    var halfW = treeW * halfRatio;
+    return { cx: cx, minX: cx - halfW, maxX: cx + halfW, halfW: halfW };
+  }
+
   function findHome(size, hasCaption, skipId) {
     var f = field();
-    var boxW = hasCaption ? Math.max(size, 150) : size;
+    var xmas = isChristmas();
+    var boxW = hasCaption ? Math.max(size, xmas ? 128 : 150) : size;
     var boxH = size + (hasCaption ? 24 : 0);
     var occupied = [];
     state.cards.forEach(function (c) {
@@ -208,28 +225,47 @@
     });
     var reserved = reservedRects();
     var best = null;
-    var step = 14;
-    for (var y = f.y; y <= f.y + f.h - boxH; y += step) {
-      for (var x = f.x; x <= f.x + f.w - boxW; x += step) {
+    var step = xmas ? 11 : 14;
+    var yStart = xmas ? f.y + f.h * 0.06 : f.y;
+    var yEnd = xmas ? f.y + f.h * 0.88 - boxH : f.y + f.h - boxH;
+
+    for (var y = yStart; y <= yEnd; y += step) {
+      var xStart = f.x;
+      var xEnd = f.x + f.w - boxW;
+      var yNorm = (y + size * 0.5 - f.y) / Math.max(1, f.h);
+      var tb = null;
+      if (xmas) {
+        tb = treeBoundsAt(yNorm, f);
+        xStart = Math.max(f.x, tb.minX - size * 0.45);
+        xEnd = Math.min(f.x + f.w - boxW, tb.maxX - size * 0.55);
+        if (xEnd < xStart) { xStart = tb.cx - boxW * 0.5; xEnd = xStart; }
+      }
+      for (var x = xStart; x <= xEnd; x += step) {
         var cand = { x: x, y: y, w: boxW, h: boxH };
         var min = Infinity;
         for (var i = 0; i < occupied.length; i++) { var g = gapTo(cand, occupied[i]); if (g < min) min = g; }
         for (var j = 0; j < reserved.length; j++) { var g2 = gapTo(cand, reserved[j]); if (g2 < min) min = g2; }
-        var score = min + Math.random() * 3;
+        var score = min + Math.random() * 2.5;
+        if (xmas && tb) {
+          var cardCx = x + boxW * 0.5;
+          var distRatio = Math.abs(cardCx - tb.cx) / Math.max(1, tb.halfW);
+          if (distRatio > 1.0) score -= (distRatio - 1.0) * 45;
+        }
         if (!best || score > best.score) best = { x: x, y: y, score: score, min: min };
       }
     }
-    if (!best) best = { x: f.x, y: f.y, min: -999 };
+    if (!best) best = { x: f.x + (f.w - boxW) * 0.5, y: f.y + f.h * 0.3, min: -999 };
     return { x: best.x, y: best.y, min: best.min, boxW: boxW, boxH: boxH };
   }
 
   function placeCard(card) {
     var caption = !!card.data.caption;
-    var size = Math.min(card.size, Math.max(targetSize(card.id), 84));
+    var minSize = isChristmas() ? 72 : 84;
+    var size = Math.min(card.size, Math.max(targetSize(card.id), minSize));
     var h = findHome(size, caption, card.id);
     var guard = 0;
-    while (h.min < 8 && size > 88 && guard++ < 16) {
-      size = Math.round(size * 0.95);
+    while (h.min < (isChristmas() ? 5 : 8) && size > minSize + 4 && guard++ < 16) {
+      size = Math.round(size * 0.94);
       h = findHome(size, caption, card.id);
     }
     if (size !== card.size) {
@@ -248,6 +284,11 @@
   function capSize() {
     var f = field();
     var n = Math.max(state.cards.size, 12);
+    if (isChristmas()) {
+      var treeArea = Math.min(f.w * 0.85, f.h * 0.92) * f.h * 0.42;
+      var perTree = treeArea / n;
+      return clamp(Math.sqrt(perTree) * 0.58, 72, 134);
+    }
     var per = (f.w * f.h) / n;
     return clamp(Math.sqrt(per) * 0.62, 84, CARD_MAX);
   }
@@ -525,7 +566,14 @@
   }
 
   function relayout() {
-    state.cards.forEach(function (c) { c.home = null; });
+    state.cards.forEach(function (c) {
+      var t = targetSize(c.id);
+      if (c.data && c.data.isMascot) t = Math.round(t * 0.88);
+      c.size = t;
+      c.el.style.width = t + 'px';
+      c.el.style.height = t + 'px';
+      c.home = null;
+    });
     state.order.forEach(function (id) {
       var c = state.cards.get(id);
       if (!c) return;
@@ -669,6 +717,7 @@
   function applySettings(s) {
     if (!s) return;
     state.settings = Object.assign({}, state.settings, s);
+    var isXmas = state.settings.theme === 'christmas';
     document.documentElement.dataset.theme = state.settings.theme || 'lavender';
     if (el.title) {
       var t = state.settings.title || '방명록';
@@ -677,7 +726,7 @@
     if (el.subtitle) el.subtitle.textContent = state.settings.subtitle || '';
     var showQR = state.settings.qrVisible !== false;
     el.qrPanel.classList.toggle('hidden', !showQR);
-    el.qrPanel.classList.toggle('corner', state.settings.qrPosition === 'corner');
+    el.qrPanel.classList.toggle('corner', isXmas || state.settings.qrPosition === 'corner');
     setTimeout(relayout, 60);
   }
 
@@ -775,10 +824,10 @@
   }
 
   function cycleTheme() {
-    var themes = ['lavender', 'cream', 'night'];
+    var themes = ['lavender', 'cream', 'night', 'christmas'];
     var idx = themes.indexOf(state.settings.theme || 'lavender');
     state.settings.theme = themes[(idx + 1) % themes.length];
-    document.documentElement.dataset.theme = state.settings.theme;
+    applySettings(state.settings);
     saveSettings();
     if (RL) RL.publishEvent(RL.topicFor(state.room), 's', { v: state.settings }).catch(function () {});
   }
