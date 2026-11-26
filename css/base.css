@@ -1,0 +1,127 @@
+/* =====================================================================
+ * DRAW IT — 공통 스타일 (테마 변수 · 폰트 · 리셋)
+ * ===================================================================== */
+:root {
+  --font-ui: "Pretendard", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic",
+             system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-hand: "Bradley Hand", "Segoe Script", "Nanum Pen Script", "Comic Sans MS",
+               "Apple SD Gothic Neo", var(--font-ui);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+
+  /* lavender (기본) */
+  --bg-a: #F8F4FF;
+  --bg-b: #EDE4FF;
+  --bg-c: #FDEFF6;
+  --ink: #3A3350;
+  --ink-soft: rgba(58, 51, 80, .60);
+  --ink-faint: rgba(58, 51, 80, .38);
+  --title-a: #6C4CE0;
+  --title-b: #FF7FB6;
+  --panel-bg: rgba(255, 255, 255, .82);
+  --panel-ink: #3A3350;
+  --panel-line: rgba(255, 255, 255, .75);
+  --panel-shadow: 0 26px 60px rgba(90, 66, 150, .18);
+  --badge-bg: rgba(255, 255, 255, .78);
+  --card-shadow: rgba(84, 62, 132, .18);
+  --orb-1: #FFD6E8;
+  --orb-2: #CFD9FF;
+  --orb-3: #D8F5E4;
+  --orb-4: #FFE9C9;
+  --orb-opacity: .55;
+  --vignette: rgba(255, 255, 255, .0);
+}
+
+[data-theme="cream"] {
+  --bg-a: #FFFCF5;
+  --bg-b: #FBF0DE;
+  --bg-c: #F7F3E8;
+  --ink: #453A2C;
+  --ink-soft: rgba(69, 58, 44, .62);
+  --ink-faint: rgba(69, 58, 44, .40);
+  --title-a: #C8892F;
+  --title-b: #E96E8A;
+  --panel-bg: rgba(255, 253, 247, .86);
+  --panel-ink: #453A2C;
+  --panel-line: rgba(255, 255, 255, .85);
+  --panel-shadow: 0 26px 60px rgba(140, 110, 70, .16);
+  --badge-bg: rgba(255, 253, 247, .82);
+  --card-shadow: rgba(140, 110, 70, .16);
+  --orb-1: #FFE2C7;
+  --orb-2: #F6D7E0;
+  --orb-3: #E7EFD4;
+  --orb-4: #FFEFD2;
+  --orb-opacity: .5;
+}
+
+[data-theme="night"] {
+  --bg-a: #191426;
+  --bg-b: #241B3A;
+  --bg-c: #151021;
+  --ink: #F3EEFF;
+  --ink-soft: rgba(238, 232, 255, .70);
+  --ink-faint: rgba(238, 232, 255, .45);
+  --title-a: #C3B0FF;
+  --title-b: #FF9EC8;
+  --panel-bg: rgba(40, 32, 60, .74);
+  --panel-ink: #F3EEFF;
+  --panel-line: rgba(255, 255, 255, .14);
+  --panel-shadow: 0 26px 70px rgba(0, 0, 0, .55);
+  --badge-bg: rgba(48, 38, 72, .72);
+  --card-shadow: rgba(0, 0, 0, .55);
+  --orb-1: #4A2E6B;
+  --orb-2: #26325E;
+  --orb-3: #1E4A48;
+  --orb-4: #5A3A4A;
+  --orb-opacity: .55;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-ui);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 52%, var(--bg-c) 100%);
+  overflow: hidden;
+  transition: background 520ms ease, color 320ms ease;
+}
+
+button { font-family: inherit; }
+
+.bg { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: var(--orb-opacity);
+  transition: background 600ms ease;
+  animation: orbFloat 18s ease-in-out infinite;
+}
+.orb-1 { width: 42vmin; height: 42vmin; left: -8vmin; top: -6vmin;  background: var(--orb-1); animation-duration: 22s; }
+.orb-2 { width: 36vmin; height: 36vmin; right: -6vmin; top: 12vmin;  background: var(--orb-2); animation-duration: 26s; animation-delay: -4s; }
+.orb-3 { width: 32vmin; height: 32vmin; left: 12vmin; bottom: -10vmin; background: var(--orb-3); animation-duration: 24s; animation-delay: -9s; }
+.orb-4 { width: 30vmin; height: 30vmin; right: 6vmin; bottom: -8vmin; background: var(--orb-4); animation-duration: 20s; animation-delay: -13s; }
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(2.2vmin, -2.6vmin, 0) scale(1.06); }
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: .35;
+  background-image: radial-gradient(rgba(120, 100, 160, .10) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mix-blend-mode: multiply;
+}
+[data-theme="night"] .grain { mix-blend-mode: screen; opacity: .14; }

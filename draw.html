@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#F3ECFF">
+<title>DRAW IT — 나의 버블 그리기</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23FFD9E8'/%3E%3Ccircle cx='24' cy='28' r='5' fill='%23332A44'/%3E%3Ccircle cx='40' cy='28' r='5' fill='%23332A44'/%3E%3Cpath d='M22 40c4 6 16 6 20 0' stroke='%23332A44' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/draw.css">
+</head>
+<body class="paper">
+  <div class="bg" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+  </div>
+
+  <header class="d-head">
+    <div class="d-brand">DRAW<span>IT</span></div>
+    <p class="d-lead">버블 위에 그림을 그려 보세요</p>
+    <button class="d-room" id="roomChip" title="방 코드 바꾸기">
+      <i id="roomDot"></i> 방 <b id="roomLabel">────────</b>
+    </button>
+  </header>
+
+  <main class="d-main">
+    <div class="stage-wrap">
+      <div class="canvas-frame" id="frame">
+        <svg class="shape-bg" id="shapeBg" viewBox="0 0 200 200" aria-hidden="true"></svg>
+        <canvas id="art" width="400" height="400"></canvas>
+        <div class="eyes-preview" id="eyesPreview"></div>
+      </div>
+    </div>
+
+    <nav class="tool shapes-row" id="shapeRow" aria-label="도안 선택"></nav>
+
+    <div class="tool colors-row">
+      <span class="tool-label">배경</span>
+      <div class="swatches" id="bgRow"></div>
+    </div>
+
+    <div class="tool inks-row">
+      <span class="tool-label">펜</span>
+      <div class="swatches ink" id="inkRow"></div>
+    </div>
+
+    <div class="tool bottom-row">
+      <div class="sizes" id="sizeRow" role="group" aria-label="펜 굵기">
+        <button class="size-btn" data-size="3" aria-label="얇게"><i style="width:4px;height:4px"></i></button>
+        <button class="size-btn is-on" data-size="5.5" aria-label="보통"><i style="width:7px;height:7px"></i></button>
+        <button class="size-btn" data-size="9" aria-label="굵게"><i style="width:11px;height:11px"></i></button>
+      </div>
+      <div class="acts">
+        <button class="act" id="undoBtn" aria-label="되돌리기">↶ <span>되돌리기</span></button>
+        <button class="act" id="eraserBtn" aria-label="지우개"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 2.6 3.3 8.5a1.6 1.6 0 0 0 0 2.3l1.7 1.7a1.6 1.6 0 0 0 2.3 0l5.9-5.9z"/><path d="M4.2 7.6l4.2 4.2"/><path d="M7.6 13.6h6"/></svg> <span>지우개</span></button>
+        <button class="act" id="clearBtn" aria-label="전체 지우기">✕ <span>전체</span></button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="d-foot">
+    <button class="send" id="sendBtn">
+      <span class="send-main">Fill your bubble!</span>
+      <span class="send-sub">큰 화면으로 보내기</span>
+    </button>
+  </footer>
+
+  <div class="overlay" id="doneOverlay" aria-hidden="true">
+    <div class="done-card">
+      <div class="done-emoji">🎉</div>
+      <h2>보냈어요!</h2>
+      <p>큰 화면의 방명록에<br>당신의 버블이 나타났어요.</p>
+      <button class="again" id="againBtn">하나 더 그리기</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="errorOverlay" aria-hidden="true">
+    <div class="done-card">
+      <div class="done-emoji">😢</div>
+      <h2>보내지 못했어요</h2>
+      <p id="errorText">잠시 후 다시 시도해 주세요.</p>
+      <button class="again" id="retryBtn">다시 보내기</button>
+    </div>
+  </div>
+
+  <!-- 방 코드 입력 (QR 없이 주소만 열었을 때) -->
+  <div class="overlay" id="joinOverlay" aria-hidden="true">
+    <div class="done-card">
+      <div class="done-emoji">🔑</div>
+      <h2>방 코드를 입력해 주세요</h2>
+      <p>큰 화면 아래에 적힌<br>방 코드를 넣으면 연결됩니다.</p>
+      <input class="join-input" id="joinInput" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="예: K7M2PQXH">
+      <button class="again" id="joinBtn">이 방으로 그리기</button>
+      <p class="join-note" id="joinNote"></p>
+    </div>
+  </div>
+
+  <div class="sending" id="sending" aria-hidden="true"><span></span>보내는 중…</div>
+
+  <script src="js/shapes.js"></script>
+  <script src="js/relay.js"></script>
+  <script src="js/draw.js"></script>
+</body>
+</html>

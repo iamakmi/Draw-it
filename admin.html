@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko" data-theme="lavender">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRAW IT — 관리자</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='14' fill='%236C4CE0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+  <header class="a-head">
+    <div>
+      <h1>DRAW IT <span>관리자</span></h1>
+      <p>방명록을 정리하고 화면 설정을 바꿀 수 있어요.</p>
+    </div>
+    <nav class="a-links">
+      <a href="index.html" target="_blank" rel="noopener">미디어월 열기 ↗</a>
+      <a href="draw.html" target="_blank" rel="noopener">그리기 화면 ↗</a>
+    </nav>
+  </header>
+
+  <main class="a-main">
+    <section class="panel">
+      <h2>지금 방</h2>
+      <div class="qrrow">
+        <div class="qrbox"><canvas id="qrCanvas" width="440" height="440"></canvas></div>
+        <div class="qrmeta">
+          <p class="big">방 코드 <b id="roomText">────────</b></p>
+          <p class="small" id="drawUrlText">draw.html?room=…</p>
+          <p class="small">태블릿(미디어월)에서 QR 코드를 띄우면 손님 휴대폰으로 이 주소가 열립니다.<br>인터넷만 되면 같은 와이파이가 아니어도 연결됩니다.</p>
+          <div class="list-actions">
+            <button class="btn primary" id="newRoomBtn">새 방 만들기</button>
+            <button class="btn" id="openRoomBtn">이 방으로 미디어월 열기</button>
+          </div>
+          <ul id="roomList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>화면 설정</h2>
+      <div class="grid">
+        <label>테마
+          <select id="themeSel">
+            <option value="lavender">라벤더 (기본)</option>
+            <option value="cream">크림 화이트</option>
+            <option value="night">나이트 다크</option>
+          </select>
+        </label>
+        <label>QR 위치
+          <select id="qrPosSel">
+            <option value="bottom">하단 가운데</option>
+            <option value="corner">오른쪽 아래 구석</option>
+          </select>
+        </label>
+        <label class="switch">QR 코드 표시
+          <input type="checkbox" id="qrVisChk" checked>
+        </label>
+        <label>타이틀
+          <input type="text" id="titleInp" maxlength="40" placeholder="DRAW IT">
+        </label>
+        <label class="wide">안내 문구
+          <input type="text" id="subtitleInp" maxlength="90" placeholder="What's on your mind? Fill your bubble!">
+        </label>
+      </div>
+      <div class="panel-foot">
+        <span class="hintline">미디어월에서도 <b>T</b> 테마 · <b>Q</b> QR · <b>H</b> 숨기기 단축키를 쓸 수 있어요.</span>
+        <button class="btn primary" id="saveSettings">설정 저장</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="list-head">
+        <h2>이 기기에 저장된 방명록 <span class="count" id="countText">0</span></h2>
+        <div class="list-actions">
+          <button class="btn" id="reseedBtn">샘플 다시 채우기</button>
+          <button class="btn danger" id="resetBtn">전체 비우기</button>
+        </div>
+      </div>
+      <div class="cards" id="cardList"></div>
+      <p class="empty" id="emptyMsg" hidden>아직 방명록이 없어요. 휴대폰으로 첫 그림을 그려 보세요!</p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="vendor/qrcode.js"></script>
+  <script src="js/shapes.js"></script>
+  <script src="js/relay.js"></script>
+  <script src="js/seed-data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
