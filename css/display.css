@@ -16,12 +16,30 @@
 }
 body.ui-hidden .topbar { opacity: 0; transform: translateY(-14px); }
 
+.brand-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 1.8vw, 28px);
+  flex-wrap: wrap;
+}
+
+.brand-logo {
+  height: clamp(46px, 5.8vw, 94px);
+  width: auto;
+  display: block;
+  border-radius: 14px;
+  background: #fff;
+  padding: 6px 12px;
+  box-shadow: 0 10px 24px rgba(108, 76, 224, .16);
+}
+
 .title {
   margin: 0;
-  font-size: clamp(46px, 6.6vw, 112px);
+  font-size: clamp(42px, 5.8vw, 96px);
   font-weight: 900;
   letter-spacing: -.035em;
-  line-height: .96;
+  line-height: 1.02;
   background: linear-gradient(120deg, var(--title-a) 8%, var(--title-b) 92%);
   -webkit-background-clip: text;
   background-clip: text;

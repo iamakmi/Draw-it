@@ -125,3 +125,49 @@ button { font-family: inherit; }
   mix-blend-mode: multiply;
 }
 [data-theme="night"] .grain { mix-blend-mode: screen; opacity: .14; }
+
+/* ----------------------------------------------------- 동그란 '똑' 부유 배지 */
+.ttok-floaters {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ttok-dot {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid rgba(255, 255, 255, .92);
+  box-shadow: 0 8px 20px rgba(90, 66, 150, .18);
+  opacity: .82;
+  will-change: transform;
+  animation: ttokBob 7s ease-in-out infinite;
+}
+[data-theme="night"] .ttok-dot {
+  border-color: rgba(255, 255, 255, .35);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
+  opacity: .75;
+}
+.ttok-dot.t1 { left: 5%;  top: 12%; width: 48px; height: 48px; animation-duration: 6.4s; animation-delay: 0s; }
+.ttok-dot.t2 { left: 17%; top: 76%; width: 38px; height: 38px; animation-duration: 7.8s; animation-delay: -1.4s; }
+.ttok-dot.t3 { left: 86%; top: 15%; width: 46px; height: 46px; animation-duration: 6.9s; animation-delay: -2.7s; }
+.ttok-dot.t4 { left: 91%; top: 58%; width: 40px; height: 40px; animation-duration: 8.2s; animation-delay: -0.8s; }
+.ttok-dot.t5 { left: 8%;  top: 46%; width: 36px; height: 36px; animation-duration: 7.3s; animation-delay: -3.5s; }
+.ttok-dot.t6 { left: 78%; top: 81%; width: 44px; height: 44px; animation-duration: 6.7s; animation-delay: -2.1s; }
+.ttok-dot.t7 { left: 32%; top: 10%; width: 34px; height: 34px; animation-duration: 8.6s; animation-delay: -4.2s; }
+.ttok-dot.t8 { left: 66%; top: 11%; width: 38px; height: 38px; animation-duration: 7.5s; animation-delay: -1.9s; }
+.ttok-dot.t9 { left: 48%; top: 86%; width: 36px; height: 36px; animation-duration: 8.0s; animation-delay: -3.0s; }
+
+body.paper .ttok-dot {
+  width: 32px;
+  height: 32px;
+  opacity: .68;
+}
+
+@keyframes ttokBob {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-6deg) scale(1); }
+  33%      { transform: translate3d(10px, -16px, 0) rotate(5deg) scale(1.05); }
+  66%      { transform: translate3d(-8px, -7px, 0) rotate(-3deg) scale(0.97); }
+}

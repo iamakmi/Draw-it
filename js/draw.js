@@ -328,11 +328,13 @@
   function payload() {
     var stamp = Date.now().toString(36);
     var salt = Math.random().toString(36).slice(2, 7);
+    var capEl = $('#captionInp');
+    var cap = capEl ? capEl.value.trim().slice(0, 60) : '';
     return {
       id: 'd' + stamp + salt,
       template: state.shape,
       bg: state.bg,
-      caption: '',
+      caption: cap,
       createdAt: Date.now(),
       strokes: state.strokes.map(function (s) {
         var out = { w: s.w, p: s.p.slice() };
@@ -365,7 +367,9 @@
   function doSend() {
     if (state.sending) return;
     if (!state.room) { showJoin(); return; }
-    if (!state.strokes.length) {
+    var capEl = $('#captionInp');
+    var cap = capEl ? capEl.value.trim() : '';
+    if (!state.strokes.length && !cap) {
       var b = $('#sendBtn');
       b.animate(
         [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }],
@@ -394,10 +398,20 @@
 
   $('#sendBtn').addEventListener('click', doSend);
 
+  if ($('#captionInp')) {
+    $('#captionInp').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.blur();
+      }
+    });
+  }
+
   $('#againBtn').addEventListener('click', function () {
     $('#doneOverlay').classList.remove('show');
     $('#doneOverlay').setAttribute('aria-hidden', 'true');
     state.strokes = [];
+    if ($('#captionInp')) $('#captionInp').value = '';
     clearCanvas();
   });
 

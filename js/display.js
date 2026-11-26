@@ -15,7 +15,7 @@
     theme: 'lavender',
     qrPosition: 'bottom',
     qrVisible: true,
-    title: 'DRAW IT',
+    title: '방명록',
     subtitle: "What's on your mind? Fill your bubble!"
   };
 
@@ -645,8 +645,8 @@
     state.settings = Object.assign({}, state.settings, s);
     document.documentElement.dataset.theme = state.settings.theme || 'lavender';
     if (el.title) {
-      var t = state.settings.title || 'DRAW IT';
-      el.title.innerHTML = esc(t).replace(/\s*(\S+)$/, ' <span class="title-dot">$1</span>');
+      var t = state.settings.title || '방명록';
+      el.title.innerHTML = esc(t).replace(/\s+(\S+)$/, ' <span class="title-dot">$1</span>');
     }
     if (el.subtitle) el.subtitle.textContent = state.settings.subtitle || '';
     var showQR = state.settings.qrVisible !== false;

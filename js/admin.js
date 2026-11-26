@@ -14,7 +14,7 @@
     theme: 'lavender',
     qrPosition: 'bottom',
     qrVisible: true,
-    title: 'DRAW IT',
+    title: '방명록',
     subtitle: "What's on your mind? Fill your bubble!"
   };
 
@@ -184,7 +184,7 @@
     $('#themeSel').value = s.theme || 'lavender';
     $('#qrPosSel').value = s.qrPosition || 'bottom';
     $('#qrVisChk').checked = s.qrVisible !== false;
-    $('#titleInp').value = s.title || 'DRAW IT';
+    $('#titleInp').value = s.title || '방명록';
     $('#subtitleInp').value = s.subtitle || '';
   }
 
@@ -256,7 +256,7 @@
       theme: $('#themeSel').value,
       qrPosition: $('#qrPosSel').value,
       qrVisible: $('#qrVisChk').checked,
-      title: $('#titleInp').value.trim() || 'DRAW IT',
+      title: $('#titleInp').value.trim() || '방명록',
       subtitle: $('#subtitleInp').value
     };
     state.settings = next;
