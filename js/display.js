@@ -199,8 +199,175 @@
   }
 
   function isChristmas() {
-    return (state.settings && state.settings.theme === 'christmas') ||
-           document.documentElement.dataset.theme === 'christmas';
+    var th = (state.settings && state.settings.theme) || document.documentElement.dataset.theme;
+    return th === 'christmas' || th === 'starlight';
+  }
+
+  /* 별빛 크리스마스 트리 (퍼플 스파클 나선 트리 + Merry Christmas 캘리그라피) 렌더링 */
+  function paintStarlightTree() {
+    var cv = qs('#starlightCanvas');
+    if (!cv) return;
+    var ctx = cv.getContext('2d');
+    var W = cv.width, H = cv.height;
+    ctx.clearRect(0, 0, W, H);
+
+    var seed = 20261225;
+    function rnd() {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    }
+
+    var cx = W * 0.5;
+    var topY = 105;
+    var botY = 785;
+    var treeH = botY - topY;
+
+    var bgGlow = ctx.createRadialGradient(cx, topY + treeH * 0.55, 20, cx, topY + treeH * 0.55, 390);
+    bgGlow.addColorStop(0, 'rgba(195, 110, 255, 0.25)');
+    bgGlow.addColorStop(0.5, 'rgba(130, 55, 200, 0.10)');
+    bgGlow.addColorStop(1, 'rgba(40, 10, 70, 0)');
+    ctx.fillStyle = bgGlow;
+    ctx.fillRect(0, 0, W, H);
+
+    var floorGlow = ctx.createRadialGradient(cx, botY + 18, 10, cx, botY + 18, 320);
+    floorGlow.addColorStop(0, 'rgba(235, 175, 255, 0.28)');
+    floorGlow.addColorStop(0.5, 'rgba(140, 60, 210, 0.10)');
+    floorGlow.addColorStop(1, 'rgba(20, 5, 35, 0)');
+    ctx.fillStyle = floorGlow;
+    ctx.beginPath();
+    ctx.ellipse(cx, botY + 18, 320, 38, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    function drawGlowDot(x, y, r, alpha, tint) {
+      var g = ctx.createRadialGradient(x, y, 0, x, y, r * 3.2);
+      g.addColorStop(0, 'rgba(255, 255, 255, ' + alpha + ')');
+      g.addColorStop(0.35, tint || 'rgba(240, 185, 255, ' + (alpha * 0.65) + ')');
+      g.addColorStop(1, 'rgba(180, 90, 255, 0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, r * 3.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + Math.min(1, alpha * 1.15) + ')';
+      ctx.beginPath();
+      ctx.arc(x, y, r * 0.75, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    for (var i = 0; i < 1550; i++) {
+      var t = Math.pow(rnd(), 0.78);
+      var y = topY + t * treeH;
+      var maxR = (10 + t * 265) * (0.92 + 0.08 * Math.sin(t * Math.PI * 11));
+      var spread = (rnd() - 0.5) * 2;
+      var x = cx + spread * maxR * (0.35 + 0.65 * Math.pow(rnd(), 0.45));
+      var yy = y + (rnd() - 0.5) * 18;
+      var sz = 0.8 + Math.pow(rnd(), 2.4) * 3.2;
+      var al = 0.25 + rnd() * 0.7;
+      drawGlowDot(x, yy, sz, al);
+    }
+
+    var turns = 5.6;
+    var steps = 920;
+    for (var s = 0; s < steps; s++) {
+      var u = s / steps;
+      var angle = u * turns * Math.PI * 2;
+      var front = Math.sin(angle);
+      var ty = topY + u * treeH;
+      var coneR = 8 + u * 262;
+      var sx = cx + Math.cos(angle) * coneR;
+      var sy = ty + Math.sin(angle) * (12 + u * 24);
+
+      var scatter = (front > -0.2) ? 16 : 8;
+      for (var k = 0; k < 3; k++) {
+        var jx = sx + (rnd() - 0.5) * scatter * (0.5 + u);
+        var jy = sy + (rnd() - 0.5) * (scatter * 0.65);
+        var r = (front > 0 ? 1.5 + rnd() * 2.8 : 0.9 + rnd() * 1.6);
+        var a = (front > 0 ? 0.55 + rnd() * 0.45 : 0.2 + rnd() * 0.28);
+        drawGlowDot(jx, jy, r, a);
+      }
+    }
+
+    var flares = [
+      [0.18, 0.15, 22], [0.30, -0.22, 20], [0.36, 0.38, 25],
+      [0.48, -0.35, 28], [0.54, 0.18, 22], [0.62, 0.48, 27],
+      [0.71, -0.18, 26], [0.76, -0.58, 24], [0.81, 0.34, 28],
+      [0.91, -0.55, 30], [0.93, 0.08, 24], [0.94, 0.64, 30]
+    ];
+    for (var fi = 0; fi < flares.length; fi++) {
+      var fu = flares[fi][0], fxr = flares[fi][1], frad = flares[fi][2];
+      var fy = topY + fu * treeH;
+      var fx = cx + fxr * (12 + fu * 265);
+      var fg = ctx.createRadialGradient(fx, fy, 0, fx, fy, frad * 2.2);
+      fg.addColorStop(0, 'rgba(255, 255, 255, 0.98)');
+      fg.addColorStop(0.25, 'rgba(250, 210, 255, 0.78)');
+      fg.addColorStop(0.55, 'rgba(210, 120, 255, 0.28)');
+      fg.addColorStop(1, 'rgba(160, 60, 230, 0)');
+      ctx.fillStyle = fg;
+      ctx.beginPath();
+      ctx.arc(fx, fy, frad * 2.2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    for (var d = 0; d < 180; d++) {
+      var du = rnd();
+      var dy = topY - 20 + du * (treeH + 60);
+      var dx = cx + (rnd() - 0.5) * (140 + du * 640);
+      drawGlowDot(dx, dy, 0.7 + rnd() * 1.8, 0.2 + rnd() * 0.55);
+    }
+
+    var starY = topY - 8;
+    var topGlow = ctx.createRadialGradient(cx, starY, 0, cx, starY, 95);
+    topGlow.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    topGlow.addColorStop(0.22, 'rgba(252, 215, 255, 0.85)');
+    topGlow.addColorStop(0.5, 'rgba(215, 125, 255, 0.32)');
+    topGlow.addColorStop(1, 'rgba(160, 60, 240, 0)');
+    ctx.fillStyle = topGlow;
+    ctx.beginPath();
+    ctx.arc(cx, starY, 95, 0, Math.PI * 2);
+    ctx.fill();
+
+    var rays = [
+      { ang: -0.24, len: 135, w: 2.6 },
+      { ang: -0.24 + Math.PI * 0.5, len: 95, w: 2.2 },
+      { ang: 0.45, len: 70, w: 1.5 },
+      { ang: 0.45 + Math.PI * 0.5, len: 70, w: 1.5 }
+    ];
+    rays.forEach(function (ray) {
+      ctx.save();
+      ctx.translate(cx, starY);
+      ctx.rotate(ray.ang);
+      var rg = ctx.createLinearGradient(-ray.len, 0, ray.len, 0);
+      rg.addColorStop(0, 'rgba(255, 220, 255, 0)');
+      rg.addColorStop(0.35, 'rgba(245, 195, 255, 0.45)');
+      rg.addColorStop(0.5, 'rgba(255, 255, 255, 0.98)');
+      rg.addColorStop(0.65, 'rgba(245, 195, 255, 0.45)');
+      rg.addColorStop(1, 'rgba(255, 220, 255, 0)');
+      ctx.strokeStyle = rg;
+      ctx.lineWidth = ray.w;
+      ctx.beginPath();
+      ctx.moveTo(-ray.len, 0);
+      ctx.lineTo(ray.len, 0);
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    ctx.save();
+    ctx.font = 'italic 600 84px "Brush Script MT", "Segoe Script", "Snell Roundhand", "Apple Chancery", "Nanum Pen Script", Georgia, cursive';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(235, 150, 255, 0.95)';
+    ctx.shadowBlur = 24;
+    var tg = ctx.createLinearGradient(cx - 260, botY + 80, cx + 260, botY + 145);
+    tg.addColorStop(0, '#F8D8FF');
+    tg.addColorStop(0.5, '#FFFFFF');
+    tg.addColorStop(1, '#E5A8FF');
+    ctx.fillStyle = tg;
+    ctx.fillText('Merry Christmas', cx, botY + 112);
+    ctx.shadowBlur = 8;
+    ctx.fillText('Merry Christmas', cx, botY + 112);
+    ctx.restore();
   }
 
   /* 크리스마스 트리 실루엣 안에 들어가도록 x 범위와 후보 좌표를 계산합니다 */
@@ -718,7 +885,7 @@
   function applySettings(s) {
     if (!s) return;
     state.settings = Object.assign({}, state.settings, s);
-    var isXmas = state.settings.theme === 'christmas';
+    var isXmas = state.settings.theme === 'christmas' || state.settings.theme === 'starlight';
     document.documentElement.dataset.theme = state.settings.theme || 'lavender';
     var fs = Math.min(160, Math.max(70, Number(state.settings.fontScale) || 100));
     document.documentElement.style.setProperty('--font-scale', (fs / 100).toFixed(2));
@@ -831,7 +998,7 @@
   }
 
   function cycleTheme() {
-    var themes = ['lavender', 'cream', 'night', 'christmas'];
+    var themes = ['lavender', 'cream', 'night', 'christmas', 'starlight'];
     var idx = themes.indexOf(state.settings.theme || 'lavender');
     state.settings.theme = themes[(idx + 1) % themes.length];
     applySettings(state.settings);
@@ -885,6 +1052,7 @@
   /* -------------------------------------------------------------- 초기화 */
 
   function boot() {
+    paintStarlightTree();
     ensureRoom();
     loadSettings();
     applySettings(state.settings);
