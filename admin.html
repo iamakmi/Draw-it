@@ -55,8 +55,14 @@
         <label>QR 위치
           <select id="qrPosSel">
             <option value="bottom">하단 가운데</option>
-            <option value="corner">오른쪽 아래 구석</option>
+            <option value="corner">오른쪽 아래</option>
+            <option value="bottom-left">왼쪽 아래</option>
+            <option value="top-right">오른쪽 위</option>
+            <option value="top-left">왼쪽 위</option>
           </select>
+        </label>
+        <label>문자 크기 (<span id="fontScaleVal">100</span>%)
+          <input type="range" id="fontScaleInp" min="70" max="160" step="5" value="100">
         </label>
         <label class="switch">QR 코드 표시
           <input type="checkbox" id="qrVisChk" checked>

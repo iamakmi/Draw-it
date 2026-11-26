@@ -15,6 +15,7 @@
     theme: 'lavender',
     qrPosition: 'bottom',
     qrVisible: true,
+    fontScale: 100,
     title: '방명록',
     subtitle: "What's on your mind? Fill your bubble!"
   };
@@ -719,6 +720,8 @@
     state.settings = Object.assign({}, state.settings, s);
     var isXmas = state.settings.theme === 'christmas';
     document.documentElement.dataset.theme = state.settings.theme || 'lavender';
+    var fs = Math.min(160, Math.max(70, Number(state.settings.fontScale) || 100));
+    document.documentElement.style.setProperty('--font-scale', (fs / 100).toFixed(2));
     if (el.title) {
       var t = state.settings.title || '방명록';
       el.title.innerHTML = esc(t).replace(/\s+(\S+)$/, ' <span class="title-dot">$1</span>');
@@ -726,7 +729,11 @@
     if (el.subtitle) el.subtitle.textContent = state.settings.subtitle || '';
     var showQR = state.settings.qrVisible !== false;
     el.qrPanel.classList.toggle('hidden', !showQR);
-    el.qrPanel.classList.toggle('corner', isXmas || state.settings.qrPosition === 'corner');
+    var pos = state.settings.qrPosition || 'bottom';
+    if (isXmas && pos === 'bottom') pos = 'corner';
+    el.qrPanel.classList.remove('corner', 'pos-corner', 'pos-bottom-left', 'pos-top-right', 'pos-top-left');
+    if (pos === 'corner') el.qrPanel.classList.add('corner', 'pos-corner');
+    else if (pos !== 'bottom') el.qrPanel.classList.add('pos-' + pos);
     setTimeout(relayout, 60);
   }
 

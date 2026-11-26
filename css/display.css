@@ -47,7 +47,7 @@ body.ui-hidden .topbar {
 
 .title {
   margin: 0;
-  font-size: clamp(38px, 5.2vw, 84px);
+  font-size: calc(clamp(38px, 5.2vw, 84px) * var(--font-scale, 1));
   font-weight: 900;
   letter-spacing: -.035em;
   line-height: 1.02;
@@ -64,7 +64,7 @@ body.ui-hidden .topbar {
 
 .subtitle {
   margin: 10px 0 0;
-  font-size: clamp(13px, 1.15vw, 20px);
+  font-size: calc(clamp(13px, 1.15vw, 20px) * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: .01em;
   color: var(--ink-soft);
@@ -133,12 +133,12 @@ body.presenting .card {
   position: absolute;
   left: 50%;
   top: 100%;
-  width: 190px;
+  width: 220px;
   margin-top: -6px;
   transform: translateX(-50%);
   text-align: center;
   font-family: var(--font-hand);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   line-height: 1.22;
   color: var(--ink-soft);
   white-space: nowrap;
@@ -398,10 +398,36 @@ body.presenting .card {
   transition: opacity 420ms ease, transform 420ms ease;
 }
 
-.qr-panel.corner {
+.qr-panel.corner,
+.qr-panel.pos-corner {
   left: auto;
   right: 28px;
+  top: auto;
   bottom: 28px;
+  transform: none;
+}
+
+.qr-panel.pos-bottom-left {
+  left: 28px;
+  right: auto;
+  top: auto;
+  bottom: 84px;
+  transform: none;
+}
+
+.qr-panel.pos-top-right {
+  left: auto;
+  right: 28px;
+  top: 76px;
+  bottom: auto;
+  transform: none;
+}
+
+.qr-panel.pos-top-left {
+  left: 28px;
+  right: auto;
+  top: 76px;
+  bottom: auto;
   transform: none;
 }
 
@@ -412,7 +438,11 @@ body.ui-hidden .qr-panel,
   pointer-events: none;
 }
 
-.qr-panel.corner.hidden {
+.qr-panel.corner.hidden,
+.qr-panel.pos-corner.hidden,
+.qr-panel.pos-bottom-left.hidden,
+.qr-panel.pos-top-right.hidden,
+.qr-panel.pos-top-left.hidden {
   transform: translateY(26px);
 }
 

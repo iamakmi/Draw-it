@@ -14,6 +14,7 @@
     theme: 'lavender',
     qrPosition: 'bottom',
     qrVisible: true,
+    fontScale: 100,
     title: '방명록',
     subtitle: "What's on your mind? Fill your bubble!"
   };
@@ -184,8 +185,17 @@
     $('#themeSel').value = s.theme || 'lavender';
     $('#qrPosSel').value = s.qrPosition || 'bottom';
     $('#qrVisChk').checked = s.qrVisible !== false;
+    var fs = Number(s.fontScale) || 100;
+    if ($('#fontScaleInp')) $('#fontScaleInp').value = fs;
+    if ($('#fontScaleVal')) $('#fontScaleVal').textContent = fs;
     $('#titleInp').value = s.title || '방명록';
     $('#subtitleInp').value = s.subtitle || '';
+  }
+
+  if ($('#fontScaleInp')) {
+    $('#fontScaleInp').addEventListener('input', function () {
+      if ($('#fontScaleVal')) $('#fontScaleVal').textContent = this.value;
+    });
   }
 
   function newRoomId() {
@@ -256,6 +266,7 @@
       theme: $('#themeSel').value,
       qrPosition: $('#qrPosSel').value,
       qrVisible: $('#qrVisChk').checked,
+      fontScale: $('#fontScaleInp') ? Number($('#fontScaleInp').value) || 100 : 100,
       title: $('#titleInp').value.trim() || '방명록',
       subtitle: $('#subtitleInp').value
     };
