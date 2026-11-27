@@ -17,11 +17,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 5px 11px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .90);
-  border: 1px solid rgba(255, 255, 255, .95);
-  box-shadow: 0 8px 22px rgba(108, 76, 224, .14);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .94);
+  border: 1px solid rgba(255, 255, 255, .98);
+  box-shadow: 0 8px 22px rgba(108, 76, 224, .16);
   pointer-events: none;
   transition: opacity 420ms ease, transform 420ms ease;
 }
@@ -32,10 +32,10 @@ body.ui-hidden .brand-badge {
 }
 
 .brand-logo {
-  height: clamp(22px, 2.5vw, 34px);
+  height: clamp(27px, 3.0vw, 41px);
   width: auto;
   display: block;
-  border-radius: 6px;
+  border-radius: 3px;
 }
 
 .topbar {

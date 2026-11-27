@@ -28,13 +28,13 @@ body.paper .orb { filter: blur(60px); }
   gap: 8px;
 }
 .d-logo {
-  height: 22px;
+  height: 27px;
   width: auto;
   display: block;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .92);
-  padding: 2px 7px;
-  box-shadow: 0 3px 10px rgba(108, 76, 224, .12);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .94);
+  padding: 3px 7px;
+  box-shadow: 0 3px 10px rgba(108, 76, 224, .14);
 }
 .d-brand {
   font-size: 21px;

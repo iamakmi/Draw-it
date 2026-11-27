@@ -26,13 +26,13 @@ body.admin {
   flex-wrap: wrap;
 }
 .a-logo {
-  height: 34px;
+  height: 41px;
   width: auto;
   display: block;
-  border-radius: 999px;
+  border-radius: 8px;
   background: #fff;
-  padding: 4px 10px;
-  box-shadow: 0 5px 14px rgba(108, 76, 224, .12);
+  padding: 5px 9px;
+  box-shadow: 0 5px 14px rgba(108, 76, 224, .14);
 }
 .a-head h1 {
   margin: 0;

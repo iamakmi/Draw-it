@@ -894,7 +894,7 @@
     state.settings = Object.assign({}, state.settings, s);
     var isXmas = state.settings.theme === 'christmas' || state.settings.theme === 'starlight';
     document.documentElement.dataset.theme = state.settings.theme || 'lavender';
-    var fs = Math.min(160, Math.max(70, Number(state.settings.fontScale) || 100));
+    var fs = Math.min(200, Math.max(10, Number(state.settings.fontScale) || 100));
     document.documentElement.style.setProperty('--font-scale', (fs / 100).toFixed(2));
     if (el.title) {
       var t = state.settings.title || '방명록';
