@@ -14,6 +14,7 @@
   var DEFAULT_SETTINGS = {
     theme: 'lavender',
     qrPosition: 'bottom',
+    titlePosition: 'top-center',
     qrVisible: true,
     fontScale: 100,
     title: '방명록',
@@ -40,6 +41,8 @@
 
   var el = {
     stage: qs('#stage'),
+    topbar: qs('#topbar'),
+    brandBadge: qs('.brand-badge'),
     title: qs('#title'),
     subtitle: qs('#subtitle'),
     qrPanel: qs('#qrPanel'),
@@ -52,6 +55,7 @@
     conn: qs('#conn'),
     touchbar: qs('#touchbar'),
     touchShow: qs('#touchShow'),
+    quickSettings: qs('#quickSettings'),
     badge: qs('#countBadge'),
     hint: qs('#hint')
   };
@@ -172,7 +176,8 @@
   function field() {
     var W = window.innerWidth, H = window.innerHeight;
     var pad = clamp(W * 0.022, 18, 44);
-    var top = clamp(H * 0.165, 122, 210);
+    var tpos = (state.settings && state.settings.titlePosition) || 'top-center';
+    var top = tpos === 'top-center' ? clamp(H * 0.165, 118, 195) : clamp(H * 0.08, 64, 110);
     return { x: pad, y: top, w: W - pad * 2, h: H - top - pad - 12 };
   }
 
@@ -188,6 +193,8 @@
     if (el.touchbar && !state.barFolded && !state.uiHidden) reserve(el.touchbar, 12);
     if (el.hint && !state.uiHidden && getComputedStyle(el.hint).display !== 'none') reserve(el.hint, 8);
     if (el.badge && !state.uiHidden) reserve(el.badge, 10);
+    if (el.brandBadge && !state.uiHidden) reserve(el.brandBadge, 10);
+    if (el.topbar && !state.uiHidden) reserve(el.topbar, 12);
     return out;
   }
 
@@ -901,6 +908,13 @@
     el.qrPanel.classList.remove('corner', 'pos-corner', 'pos-bottom-left', 'pos-top-right', 'pos-top-left');
     if (pos === 'corner') el.qrPanel.classList.add('corner', 'pos-corner');
     else if (pos !== 'bottom') el.qrPanel.classList.add('pos-' + pos);
+
+    if (el.topbar) {
+      var tpos = state.settings.titlePosition || 'top-center';
+      el.topbar.classList.remove('tpos-top-center', 'tpos-top-left', 'tpos-top-right', 'tpos-bottom-center', 'tpos-bottom-left', 'tpos-bottom-right', 'tpos-center');
+      if (tpos !== 'top-center') el.topbar.classList.add('tpos-' + tpos);
+    }
+    syncQuickSettingsUI();
     setTimeout(relayout, 60);
   }
 
@@ -1024,6 +1038,40 @@
 
   /* ------------------------------------------------------------- 터치 버튼 */
 
+  function toggleFullscreen() {
+    try {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+    } catch (e) { /* ignore */ }
+  }
+
+  function toggleQuickSettings() {
+    if (!el.quickSettings) return;
+    el.quickSettings.classList.toggle('hidden');
+    syncQuickSettingsUI();
+  }
+
+  function syncQuickSettingsUI() {
+    var s = state.settings;
+    if (!s || !el.quickSettings) return;
+    var th = qs('#qsTheme'), fs = qs('#qsFontScale'), fv = qs('#qsFontVal');
+    var tp = qs('#qsTitlePos'), qp = qs('#qsQrPos'), qv = qs('#qsQrVis');
+    if (th) th.value = s.theme || 'lavender';
+    var scale = Number(s.fontScale) || 100;
+    if (fs) fs.value = scale;
+    if (fv) fv.textContent = scale + '%';
+    if (tp) tp.value = s.titlePosition || 'top-center';
+    if (qp) qp.value = s.qrPosition || 'bottom';
+    if (qv) qv.checked = s.qrVisible !== false;
+  }
+
+  function pushSettingsPatch(patch) {
+    Object.assign(state.settings, patch);
+    applySettings(state.settings);
+    saveSettings();
+    if (RL) RL.publishEvent(RL.topicFor(state.room), 's', { v: state.settings }).catch(function () {});
+  }
+
   function setupTouchbar() {
     if (!el.touchbar) return;
     el.touchbar.addEventListener('click', function (e) {
@@ -1036,10 +1084,33 @@
       else if (act === 'newroom') makeNewRoom();
       else if (act === 'reset') resetDrawings();
       else if (act === 'hide') toggleUI();
+      else if (act === 'fullscreen') toggleFullscreen();
+      else if (act === 'settings') toggleQuickSettings();
       else if (act === 'fold') setFolded(true);
     });
     if (el.touchShow) {
       el.touchShow.addEventListener('click', function () { setFolded(false); });
+    }
+    if (qs('#qsClose')) {
+      qs('#qsClose').addEventListener('click', function () { el.quickSettings.classList.add('hidden'); });
+    }
+    if (qs('#qsTheme')) {
+      qs('#qsTheme').addEventListener('change', function () { pushSettingsPatch({ theme: this.value }); });
+    }
+    if (qs('#qsFontScale')) {
+      qs('#qsFontScale').addEventListener('input', function () {
+        if (qs('#qsFontVal')) qs('#qsFontVal').textContent = this.value + '%';
+        pushSettingsPatch({ fontScale: Number(this.value) });
+      });
+    }
+    if (qs('#qsTitlePos')) {
+      qs('#qsTitlePos').addEventListener('change', function () { pushSettingsPatch({ titlePosition: this.value }); });
+    }
+    if (qs('#qsQrPos')) {
+      qs('#qsQrPos').addEventListener('change', function () { pushSettingsPatch({ qrPosition: this.value }); });
+    }
+    if (qs('#qsQrVis')) {
+      qs('#qsQrVis').addEventListener('change', function () { pushSettingsPatch({ qrVisible: this.checked }); });
     }
   }
 

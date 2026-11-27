@@ -8,34 +8,27 @@
   z-index: 2;
 }
 
-/* ---------------------------------------------------------------- 상단 */
-.topbar {
+/* ---------------------------------------------------------------- 상단 & 왼쪽 위 마크 */
+.brand-badge {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 6;
-  padding: 18px 32px 0;
-  text-align: center;
+  top: 22px;
+  left: 26px;
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .90);
+  border: 1px solid rgba(255, 255, 255, .95);
+  box-shadow: 0 8px 22px rgba(108, 76, 224, .14);
   pointer-events: none;
   transition: opacity 420ms ease, transform 420ms ease;
 }
 
-body.ui-hidden .topbar {
+body.ui-hidden .brand-badge {
   opacity: 0;
-  transform: translateY(-14px);
-}
-
-.brand-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .88);
-  border: 1px solid rgba(255, 255, 255, .95);
-  box-shadow: 0 6px 18px rgba(108, 76, 224, .12);
+  transform: translateY(-12px);
 }
 
 .brand-logo {
@@ -43,6 +36,77 @@ body.ui-hidden .topbar {
   width: auto;
   display: block;
   border-radius: 6px;
+}
+
+.topbar {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  padding: 0;
+  text-align: center;
+  pointer-events: none;
+  max-width: 88vw;
+  transition: opacity 420ms ease, transform 420ms ease, top 420ms ease, left 420ms ease, right 420ms ease, bottom 420ms ease;
+}
+
+.topbar.tpos-top-left {
+  left: 26px;
+  right: auto;
+  top: 70px;
+  bottom: auto;
+  transform: none;
+  text-align: left;
+}
+
+.topbar.tpos-top-right {
+  left: auto;
+  right: 26px;
+  top: 70px;
+  bottom: auto;
+  transform: none;
+  text-align: right;
+}
+
+.topbar.tpos-bottom-center {
+  left: 50%;
+  right: auto;
+  top: auto;
+  bottom: 26px;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.topbar.tpos-bottom-left {
+  left: 26px;
+  right: auto;
+  top: auto;
+  bottom: 84px;
+  transform: none;
+  text-align: left;
+}
+
+.topbar.tpos-bottom-right {
+  left: auto;
+  right: 26px;
+  top: auto;
+  bottom: 84px;
+  transform: none;
+  text-align: right;
+}
+
+.topbar.tpos-center {
+  left: 50%;
+  right: auto;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+body.ui-hidden .topbar {
+  opacity: 0;
 }
 
 .title {
@@ -814,6 +878,119 @@ body.ui-hidden .touch-show {
   display: none;
 }
 
+/* 빠른 환경설정 팝업 패널 */
+.quick-settings {
+  position: fixed;
+  z-index: 25;
+  left: 24px;
+  bottom: 78px;
+  width: min(90vw, 310px);
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-line);
+  box-shadow: var(--panel-shadow);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  color: var(--panel-ink);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  transition: opacity 220ms ease, transform 240ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.quick-settings.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(.96);
+}
+
+.qs-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.qs-close {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(120, 100, 170, .14);
+  color: var(--panel-ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.qs-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.qs-row span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qs-row span b {
+  color: var(--ink);
+}
+
+.qs-row.switch {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qs-row select {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(120, 100, 170, .25);
+  background: rgba(255, 255, 255, .85);
+  color: #3A3350;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  outline: none;
+}
+
+.qs-row input[type="range"] {
+  width: 100%;
+  accent-color: #6C4CE0;
+  cursor: pointer;
+}
+
+.qs-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #6C4CE0;
+}
+
+.qs-foot {
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(120, 100, 170, .16);
+  text-align: center;
+}
+
+.qs-link {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.qs-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 900px) {
   .touchbar {
     padding: 4px;
@@ -1051,11 +1228,16 @@ body.ui-hidden .touch-show {
   display: block;
 }
 
-/* 태블릿 폭에서는 터치 버튼을 좌측 상단으로 (하단 QR 과 겹치지 않게) */
+/* 태블릿 폭에서는 왼쪽 위 마크 바로 아래에 터치 버튼을 배치 (하단 QR 과 겹치지 않게) */
 @media (max-width: 1200px) {
+  .brand-badge {
+    left: 14px;
+    top: 14px;
+  }
+
   .touchbar {
-    left: 12px;
-    top: 12px;
+    left: 14px;
+    top: 62px;
     bottom: auto;
     opacity: .62;
   }
@@ -1065,8 +1247,14 @@ body.ui-hidden .touch-show {
   }
 
   .touch-show {
-    left: 12px;
-    top: 12px;
+    left: 14px;
+    top: 62px;
+    bottom: auto;
+  }
+
+  .quick-settings {
+    left: 14px;
+    top: 114px;
     bottom: auto;
   }
 

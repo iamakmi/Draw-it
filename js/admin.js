@@ -13,6 +13,7 @@
   var DEFAULT_SETTINGS = {
     theme: 'lavender',
     qrPosition: 'bottom',
+    titlePosition: 'top-center',
     qrVisible: true,
     fontScale: 100,
     title: '방명록',
@@ -184,6 +185,7 @@
   function applySettingsUI(s) {
     $('#themeSel').value = s.theme || 'lavender';
     $('#qrPosSel').value = s.qrPosition || 'bottom';
+    if ($('#titlePosSel')) $('#titlePosSel').value = s.titlePosition || 'top-center';
     $('#qrVisChk').checked = s.qrVisible !== false;
     var fs = Number(s.fontScale) || 100;
     if ($('#fontScaleInp')) $('#fontScaleInp').value = fs;
@@ -265,6 +267,7 @@
     var next = {
       theme: $('#themeSel').value,
       qrPosition: $('#qrPosSel').value,
+      titlePosition: $('#titlePosSel') ? $('#titlePosSel').value : 'top-center',
       qrVisible: $('#qrVisChk').checked,
       fontScale: $('#fontScaleInp') ? Number($('#fontScaleInp').value) || 100 : 100,
       title: $('#titleInp').value.trim() || '방명록',
